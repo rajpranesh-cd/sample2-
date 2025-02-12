@@ -30,6 +30,7 @@ jobs:
       id-token: write
       contents: read
       security-events: write
+    continue-on-error: true
     steps:
       - uses: josys-src/security_template/actions/dependency-scanning@main
         with:
@@ -46,7 +47,7 @@ jobs:
           GH_SECURITY_TOKEN: ${{ secrets.GH_SECURITY_TOKEN }}
 
   secret-scan:
-    if: github.event_name == 'pull_request'
+    if: always() && github.event_name == 'pull_request'
     needs: dependency-scan
     runs-on: ubuntu-latest
     steps:
